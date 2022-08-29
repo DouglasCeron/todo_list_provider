@@ -15,6 +15,7 @@ class SqliteConnectionFactory {
   static SqliteConnectionFactory? _instance;
 
   factory SqliteConnectionFactory() {
+    // ??= entra no lugar do if(_instance == null)
     _instance ??= SqliteConnectionFactory._();
 
     return _instance!;
