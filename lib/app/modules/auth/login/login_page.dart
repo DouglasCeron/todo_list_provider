@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:path/path.dart';
+import 'package:todo_list_provider/app/core/widget/todo_list_logo.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -6,10 +10,87 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
+      body: LayoutBuilder(
+        builder: ((context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+                minWidth: constraints.maxWidth,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 10),
+                    TodoListLogo(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40.0, vertical: 20),
+                      child: Form(
+                        child: Column(
+                          children: [
+                            TextFormField(),
+                            const SizedBox(height: 20),
+                            TextFormField(),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                    onPressed: () {},
+                                    child: const Text('Esqueceu sua senha?')),
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(12.0),
+                                    child: Text('Login'),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Divider(
+                      color: Colors.grey.withAlpha(50),
+                      thickness: 2,
+                    ),
+                    SignInButton(
+                      Buttons.Google,
+                      onPressed: () {},
+                      padding: EdgeInsets.all(5),
+                      shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      text: 'Continue com o Google',
+                    ),
+                    const SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Não tem conta?'),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text('Cadastre-se'),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        }),
       ),
-      body: Container(),
     );
   }
 }
