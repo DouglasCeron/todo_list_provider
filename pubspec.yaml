@@ -40,6 +40,7 @@ dependencies:
   google_fonts: ^3.0.1
   flutter_signin_button: ^2.0.0
   firebase_auth: ^3.7.0
+  firebase_core: ^1.21.1
 
 dev_dependencies:
   flutter_test:
