@@ -1,10 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list_provider/app/core/ui/theme_extensions.dart';
 import 'package:todo_list_provider/app/core/widget/todo_list_field.dart';
 import 'package:todo_list_provider/app/core/widget/todo_list_logo.dart';
+import 'package:todo_list_provider/app/modules/auth/register/register_controller.dart';
+import 'package:validatorless/validatorless.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _emailEC = TextEditingController();
+  final _passwordEC = TextEditingController();
+  final _confirmPasswordEC = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailEC.dispose();
+    _passwordEC.dispose();
+    _confirmPasswordEC.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<RegisterController>().addListener(
+      () {
+        var controller = context.read<RegisterController>();
+        var success = controller.success;
+        var error = controller.error;
+        if (success) {
+          Navigator.of(context).pop();
+        } else if (error != null && error.isNotEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(error),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,29 +96,64 @@ class RegisterPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
             child: Form(
+              key: _formKey,
               child: Column(
                 children: [
-                  TodoListField(label: 'E-mail'),
+                  TodoListField(
+                    label: 'E-mail',
+                    controller: _emailEC,
+                    validator: Validatorless.multiple(
+                      [
+                        Validatorless.required('E-mail obrigatorio'),
+                        Validatorless.email('E-mail inválido'),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   TodoListField(
                     label: 'Password',
                     obscureText: true,
                     showEyeIcon: true,
+                    controller: _passwordEC,
+                    validator: Validatorless.multiple(
+                      [
+                        Validatorless.required('Senha obrigatorio'),
+                        Validatorless.min(6, 'Minimo de 6 caracteres'),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 20),
                   TodoListField(
                     label: 'Confirmar senha',
                     obscureText: true,
                     showEyeIcon: true,
+                    controller: _confirmPasswordEC,
+                    validator: Validatorless.multiple(
+                      [
+                        Validatorless.required('Senha obrigatorio'),
+                        Validatorless.compare(_passwordEC, 'Senhas diferentes'),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
-                      onPressed: () {},
-                      child: Padding(
+                      onPressed: () {
+                        var formValid =
+                            _formKey.currentState?.validate() ?? false;
+                        if (formValid) {
+                          final email = _emailEC.text;
+                          final password = _passwordEC.text;
+
+                          context
+                              .read<RegisterController>()
+                              .registerUser(email, password);
+                        }
+                      },
+                      child: const Padding(
                         padding: EdgeInsets.all(12.0),
-                        child: Text('Login'),
+                        child: Text('Salvar'),
                       ),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(

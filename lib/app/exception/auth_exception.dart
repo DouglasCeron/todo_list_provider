@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-class AuthExceptions implements Exception {
+class AuthException implements Exception {
   final String message;
-  AuthExceptions({
+  AuthException({
     required this.message,
   });
 }

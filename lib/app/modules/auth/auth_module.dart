@@ -13,12 +13,13 @@ class AuthModule extends TodoListModel {
               create: (_) => LoginController(),
             ),
             ChangeNotifierProvider(
-              create: (_) => RegisterController(),
+              create: (context) =>
+                  RegisterController(userService: context.read()),
             ),
           ],
           routers: {
-            '/login': (context) => LoginPage(),
-            '/register': (context) => RegisterPage(),
+            '/login': (context) => const LoginPage(),
+            '/register': (context) => const RegisterPage(),
           },
         );
 }
