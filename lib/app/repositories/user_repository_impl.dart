@@ -56,6 +56,11 @@ class UserRepositoryImpl implements UserRepository {
       if (kDebugMode) {
         print(e);
         print(s);
+        if (e.message ==
+            'There is no user record corresponding to this identifier. The user may have been deleted.') {
+          throw AuthException(
+              message: 'Não foi encontrado usuario cadastrado com esse email');
+        }
       }
       throw AuthException(
           message: e.message ?? 'Erro ao realizar o login no FireBase');
