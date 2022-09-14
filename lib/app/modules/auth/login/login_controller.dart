@@ -26,4 +26,8 @@ class LoginController extends DefaultChangeNotifier {
       notifyListeners();
     }
   }
+
+  void forgotPassord(String text) {
+    showLoadingAndResetState();
+  }
 }

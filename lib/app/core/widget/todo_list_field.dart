@@ -7,6 +7,7 @@ class TodoListField extends StatelessWidget {
   final listenNotifier = ValueNotifier(false);
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
+  final FocusNode? focusNode;
 
   bool obscureText;
 
@@ -17,6 +18,7 @@ class TodoListField extends StatelessWidget {
     this.obscureText = false,
     this.controller,
     this.validator,
+    this.focusNode,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class TodoListField extends StatelessWidget {
       valueListenable: listenNotifier,
       builder: (_, isPasswordVisible, __) {
         return TextFormField(
+          focusNode: focusNode,
           controller: controller,
           validator: validator,
           obscureText: obscureText,
