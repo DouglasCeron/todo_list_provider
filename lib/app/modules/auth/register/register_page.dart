@@ -86,8 +86,8 @@ class _RegisterPageState extends State<RegisterPage> {
           SizedBox(
             height: MediaQuery.of(context).size.width,
             child: const FittedBox(
-              child: TodoListLogo(),
               fit: BoxFit.fitHeight,
+              child: TodoListLogo(),
             ),
           ),
           Padding(
@@ -148,14 +148,14 @@ class _RegisterPageState extends State<RegisterPage> {
                               .registerUser(email, password);
                         }
                       },
-                      child: const Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Text('Salvar'),
-                      ),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Text('Salvar'),
                       ),
                     ),
                   ),

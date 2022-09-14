@@ -1,12 +1,11 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:todo_list_provider/app/exception/auth_exception.dart';
 import 'package:todo_list_provider/app/repositories/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
-  FirebaseAuth _firebaseAuth;
+  final FirebaseAuth _firebaseAuth;
 
   UserRepositoryImpl({required FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth;
@@ -18,8 +17,10 @@ class UserRepositoryImpl implements UserRepository {
           email: email, password: password);
       return userCredential.user;
     } on FirebaseAuthException catch (e, s) {
-      print(e);
-      print(s);
+      if (kDebugMode) {
+        print(e);
+        print(s);
+      }
 
       if (e.code == 'email-already-in-use') {
         final loginTypes =
@@ -46,12 +47,16 @@ class UserRepositoryImpl implements UserRepository {
 
       return userCredential.user;
     } on PlatformException catch (e, s) {
-      print(e);
-      print(s);
+      if (kDebugMode) {
+        print(e);
+        print(s);
+      }
       throw AuthException(message: e.message ?? 'Erro ao realizar o login');
-    } on FirebaseException catch (e, s) {
-      print(e);
-      print(s);
+    } on FirebaseAuthException catch (e, s) {
+      if (kDebugMode) {
+        print(e);
+        print(s);
+      }
       throw AuthException(
           message: e.message ?? 'Erro ao realizar o login no FireBase');
     }

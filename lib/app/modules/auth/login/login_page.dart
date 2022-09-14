@@ -48,14 +48,14 @@ class LoginPage extends StatelessWidget {
                                     child: const Text('Esqueceu sua senha?')),
                                 ElevatedButton(
                                   onPressed: () {},
-                                  child: Padding(
-                                    padding: EdgeInsets.all(12.0),
-                                    child: Text('Login'),
-                                  ),
                                   style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     ),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(12.0),
+                                    child: Text('Login'),
                                   ),
                                 ),
                               ],
