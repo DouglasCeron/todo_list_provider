@@ -28,6 +28,13 @@ class _LoginPageState extends State<LoginPage> {
     DefaultListenerNotifier(changeNotifier: context.read<LoginController>())
         .listener(
       context: context,
+      everVoidCallback: (notifier, listenerInstance) {
+        if (notifier is LoginController) {
+          if (notifier.hasInfo) {
+            Messages.of(context).showInfo(notifier.infoMessage!);
+          }
+        }
+      },
       successCallBack: (notifier, listenerInstance) {
         print('Login efetuado com sucesso');
       },
